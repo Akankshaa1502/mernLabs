@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCurrentCustomer } from "../services/api";
 
@@ -28,7 +28,14 @@ function useCurrentUser() {
     };
   }, [navigate]);
 
-  return { user, checking };
+  // Replaces the user's wishlist ids with the list the server sent back
+  // after an add/remove, so the Navbar count stays in sync.
+  const setWishlistIds = useCallback(
+    (ids) => setUser((prev) => (prev ? { ...prev, wishlist: ids } : prev)),
+    []
+  );
+
+  return { user, checking, setWishlistIds };
 }
 
 export default useCurrentUser;

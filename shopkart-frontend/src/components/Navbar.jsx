@@ -35,6 +35,13 @@ function Navbar({ user }) {
               <NavLink to="/products" className="nav-link">
                 Products
               </NavLink>
+              {/* Count comes from the server (user.wishlist ids) */}
+              <NavLink to="/wishlist" className="nav-link">
+                Wishlist
+                {user.wishlist && (
+                  <span className="nav-count">{user.wishlist.length}</span>
+                )}
+              </NavLink>
               <span className="nav-user">Hi, {user.fullName.split(" ")[0]}</span>
               <button
                 type="button"

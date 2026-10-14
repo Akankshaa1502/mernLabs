@@ -3,8 +3,12 @@ const Customer = require("../models/customer.model");
 
 const authMiddleware = async (req, res, next) => {
   try {
-    
-    const token = req.cookies.token;
+    // The browser sends the JWT in the HttpOnly cookie; tools like Postman
+    // can also send it as "Authorization: Bearer <token>".
+    const authHeader = req.headers.authorization || "";
+    const token =
+      req.cookies.token ||
+      (authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null);
 
     if (!token) {
       return res.status(401).json({

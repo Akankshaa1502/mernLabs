@@ -18,6 +18,18 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // Only Product ObjectIds are stored, not copies of the products, so the
+  // Product collection stays the single source of truth for price/stock.
+  // Existing customers without this field get [] automatically.
+  wishlist: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now,

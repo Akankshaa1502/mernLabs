@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import WishlistButton from "../components/WishlistButton";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { getProductById } from "../services/api";
 import { formatPrice, getStockStatus } from "../utils/format";
@@ -9,7 +10,7 @@ function ProductDetails() {
   // :id from the route /products/:id
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, checking } = useCurrentUser();
+  const { user, checking, setWishlistIds } = useCurrentUser();
 
   // Result of the last finished request, tagged with the id it was for.
   // Until it matches the id in the URL, we are still loading.
@@ -106,6 +107,13 @@ function ProductDetails() {
             {outOfStock ? "Out of Stock" : "Add to Cart"}
           </button>
           {cartMessage && <p className="cart-note">{cartMessage}</p>}
+
+          <WishlistButton
+            productId={product._id}
+            saved={(user.wishlist || []).includes(product._id)}
+            onChange={setWishlistIds}
+            className="details-cart-btn"
+          />
         </div>
       </section>
     );

@@ -7,7 +7,7 @@ import useCurrentUser from "../hooks/useCurrentUser";
 import { getProducts } from "../services/api";
 
 function Products() {
-  const { user, checking } = useCurrentUser();
+  const { user, checking, setWishlistIds } = useCurrentUser();
 
   // Filters live in the page URL (/products?search=phone&category=Books)
   // so they survive a refresh and the browser Back button.
@@ -79,6 +79,10 @@ function Products() {
 
   const hasFilters = search || category;
 
+  // Wishlist ids come from the server (/customers/me) and are refreshed
+  // from every add/remove response
+  const savedIds = new Set(user.wishlist || []);
+
   const renderContent = () => {
     if (loading) {
       return (
@@ -116,7 +120,12 @@ function Products() {
     return (
       <div className="product-grid">
         {products.map((product) => (
-          <ProductCard key={product._id} product={product} />
+          <ProductCard
+            key={product._id}
+            product={product}
+            saved={savedIds.has(product._id)}
+            onWishlistChange={setWishlistIds}
+          />
         ))}
       </div>
     );

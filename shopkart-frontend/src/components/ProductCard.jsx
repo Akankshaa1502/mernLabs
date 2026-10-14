@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
+import WishlistButton from "./WishlistButton";
 import { formatPrice, getStockStatus } from "../utils/format";
 
-function ProductCard({ product }) {
+function ProductCard({ product, saved, onWishlistChange }) {
   const stock = getStockStatus(product.stock);
 
   return (
@@ -13,6 +14,13 @@ function ProductCard({ product }) {
           className="product-image"
           loading="lazy"
         />
+        <span
+          className={`heart-badge ${saved ? "is-saved" : ""}`}
+          title={saved ? "In your wishlist" : "Not in your wishlist"}
+          aria-hidden="true"
+        >
+          {saved ? "♥" : "♡"}
+        </span>
       </div>
 
       <div className="product-body">
@@ -21,9 +29,17 @@ function ProductCard({ product }) {
         <p className="product-price">{formatPrice(product.price)}</p>
         <p className={`stock-badge stock-${stock.tone}`}>{stock.label}</p>
 
-        <Link to={`/products/${product._id}`} className="btn btn-primary btn-block">
-          View Details
-        </Link>
+        <div className="card-actions">
+          <Link to={`/products/${product._id}`} className="btn btn-primary btn-block">
+            View Details
+          </Link>
+          <WishlistButton
+            productId={product._id}
+            saved={saved}
+            onChange={onWishlistChange}
+            className="btn-block"
+          />
+        </div>
       </div>
     </article>
   );
