@@ -17,6 +17,17 @@ export const getCurrentCustomer = () => api.get("/customers/me");
 
 export const logoutCustomer = () => api.post("/customers/logout");
 
+// filters = { search, category, sort }. Empty values are dropped so the
+// URL stays clean, e.g. /products?search=phone&category=Electronics
+export const getProducts = (filters = {}) => {
+  const params = Object.fromEntries(
+    Object.entries(filters).filter(([, value]) => value)
+  );
+  return api.get("/products", { params });
+};
+
+export const getProductById = (id) => api.get(`/products/${id}`);
+
 // Pulls a readable message out of an axios error.
 export const getErrorMessage = (err, fallback = "Something went wrong") => {
   if (!err.response) return "Unable to reach the server. Please try again.";

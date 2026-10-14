@@ -29,6 +29,12 @@ function Navbar({ user }) {
         <nav className="nav-links">
           {user ? (
             <>
+              <NavLink to="/home" className="nav-link">
+                Home
+              </NavLink>
+              <NavLink to="/products" className="nav-link">
+                Products
+              </NavLink>
               <span className="nav-user">Hi, {user.fullName.split(" ")[0]}</span>
               <button
                 type="button"

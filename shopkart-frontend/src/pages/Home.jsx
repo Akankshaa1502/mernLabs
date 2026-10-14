@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { getCurrentCustomer } from "../services/api";
 
@@ -67,6 +67,9 @@ function Home() {
             <p className="welcome-text">
               You're logged in. Explore today's deals and manage your account below.
             </p>
+            <Link to="/products" className="btn btn-light">
+              Browse Products
+            </Link>
           </div>
         </section>
 
