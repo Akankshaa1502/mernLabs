@@ -30,6 +30,28 @@ const customerSchema = new mongoose.Schema({
     ],
     default: [],
   },
+  // A cart item needs one more thing than a wishlist entry: quantity.
+  // Price is NOT stored here — it is read from the Product (via populate)
+  // so the cart always shows the latest price. Subtotal is calculated on
+  // the frontend, never stored.
+  cart: {
+    type: [
+      {
+        _id: false,
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          default: 1,
+          min: [1, "Quantity must be at least 1"],
+        },
+      },
+    ],
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now,

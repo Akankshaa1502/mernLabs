@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import useCart from "../hooks/useCart";
 import { loginCustomer, getErrorMessage } from "../services/api";
 
 function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const justRegistered = location.state?.registered;
+  const { refreshCart } = useCart();
 
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
@@ -37,6 +39,8 @@ function Login() {
         email: form.email.trim(),
         password: form.password,
       });
+      // Load this customer's saved cart into the shared cart state
+      refreshCart();
       navigate("/home", { replace: true });
     } catch (err) {
       setServerError(

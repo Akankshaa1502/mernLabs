@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import AddToCartButton from "./AddToCartButton";
 import WishlistButton from "./WishlistButton";
 import { formatPrice, getStockStatus } from "../utils/format";
 
@@ -30,7 +31,8 @@ function ProductCard({ product, saved, onWishlistChange }) {
         <p className={`stock-badge stock-${stock.tone}`}>{stock.label}</p>
 
         <div className="card-actions">
-          <Link to={`/products/${product._id}`} className="btn btn-primary btn-block">
+          <AddToCartButton product={product} className="btn-block" />
+          <Link to={`/products/${product._id}`} className="btn btn-secondary btn-block">
             View Details
           </Link>
           <WishlistButton

@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import useCart from "../hooks/useCart";
 import { logoutCustomer } from "../services/api";
 
 function Navbar({ user }) {
   const navigate = useNavigate();
   const [loggingOut, setLoggingOut] = useState(false);
+  // Read from the shared cart state — the Navbar never fetches the cart
+  const { itemCount, clearCart } = useCart();
 
   const handleLogout = async () => {
     setLoggingOut(true);
@@ -14,6 +17,7 @@ function Navbar({ user }) {
       // Even if the request fails (e.g. session already expired),
       // the user should still end up on the login page.
     } finally {
+      clearCart();
       navigate("/login", { replace: true });
     }
   };
@@ -41,6 +45,10 @@ function Navbar({ user }) {
                 {user.wishlist && (
                   <span className="nav-count">{user.wishlist.length}</span>
                 )}
+              </NavLink>
+              {/* Total units in the cart, e.g. Keyboard x2 + Mouse x1 = 3 */}
+              <NavLink to="/cart" className="nav-link">
+                Cart<span className="nav-count">{itemCount}</span>
               </NavLink>
               <span className="nav-user">Hi, {user.fullName.split(" ")[0]}</span>
               <button

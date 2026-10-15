@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import AddToCartButton from "../components/AddToCartButton";
 import WishlistButton from "../components/WishlistButton";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { getProductById } from "../services/api";
@@ -17,7 +18,6 @@ function ProductDetails() {
   const [result, setResult] = useState({ id: null, product: null, error: "" });
   const loading = result.id !== id;
   const { product, error } = result;
-  const [cartMessage, setCartMessage] = useState("");
 
   useEffect(() => {
     let ignore = false;
@@ -82,7 +82,6 @@ function ProductDetails() {
     }
 
     const stock = getStockStatus(product.stock);
-    const outOfStock = product.stock === 0;
 
     return (
       <section className="details-card">
@@ -97,16 +96,7 @@ function ProductDetails() {
           <p className={`stock-badge stock-${stock.tone}`}>{stock.label}</p>
           <p className="details-description">{product.description}</p>
 
-          {/* UI only for now — cart API arrives in Lab 05 */}
-          <button
-            type="button"
-            className="btn btn-primary details-cart-btn"
-            disabled={outOfStock}
-            onClick={() => setCartMessage("Cart is coming soon!")}
-          >
-            {outOfStock ? "Out of Stock" : "Add to Cart"}
-          </button>
-          {cartMessage && <p className="cart-note">{cartMessage}</p>}
+          <AddToCartButton product={product} className="details-cart-btn" />
 
           <WishlistButton
             productId={product._id}
