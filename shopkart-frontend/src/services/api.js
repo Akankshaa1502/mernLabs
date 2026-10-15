@@ -46,6 +46,21 @@ export const updateCartQuantity = (productId, quantity) =>
 
 export const removeFromCart = (productId) => api.delete(`/cart/${productId}`);
 
+// Orders: only the shipping address is sent. Items, prices and the total
+// are worked out by the server from the saved cart.
+export const createPaymentOrder = (shippingAddress) =>
+  api.post("/orders/create-payment-order", { shippingAddress });
+
+export const verifyPayment = (paymentDetails) =>
+  api.post("/orders/verify-payment", paymentDetails);
+
+export const getOrders = () => api.get("/orders");
+
+export const getOrderById = (id) => api.get(`/orders/${id}`);
+
+export const updateOrderStatus = (id, status) =>
+  api.patch(`/orders/${id}/status`, { status });
+
 // Pulls a readable message out of an axios error.
 export const getErrorMessage = (err, fallback = "Something went wrong") => {
   if (!err.response) return "Unable to reach the server. Please try again.";

@@ -50,6 +50,9 @@ function Navbar({ user }) {
               <NavLink to="/cart" className="nav-link">
                 Cart<span className="nav-count">{itemCount}</span>
               </NavLink>
+              <NavLink to="/orders" className="nav-link">
+                Orders
+              </NavLink>
               <span className="nav-user">Hi, {user.fullName.split(" ")[0]}</span>
               <button
                 type="button"

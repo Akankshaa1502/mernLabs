@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import CartItem from "../components/CartItem";
 import useCart from "../hooks/useCart";
@@ -9,7 +9,7 @@ import { formatPrice } from "../utils/format";
 function Cart() {
   const { user, checking } = useCurrentUser();
   const { cartItems, loading, error, itemCount, subtotal, refreshCart } = useCart();
-  const [checkoutNote, setCheckoutNote] = useState("");
+  const navigate = useNavigate();
 
   // Re-load on every visit so the latest product price and stock are shown
   useEffect(() => {
@@ -92,12 +92,11 @@ function Cart() {
             <span>{formatPrice(subtotal)}</span>
           </div>
 
-          {/* Checkout flow is built in Lab 06 */}
           <button
             type="button"
             className="btn btn-primary btn-block"
             disabled={hasStockProblem}
-            onClick={() => setCheckoutNote("Checkout will be available in the next update.")}
+            onClick={() => navigate("/checkout")}
           >
             Proceed to Checkout
           </button>
@@ -106,7 +105,6 @@ function Cart() {
               Fix the stock issues above to continue.
             </p>
           )}
-          {checkoutNote && <p className="action-note">{checkoutNote}</p>}
         </aside>
       </div>
     );
