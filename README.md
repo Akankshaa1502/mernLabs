@@ -2,6 +2,15 @@
 
 ShopKart is a full-stack e-commerce web app built with MongoDB, Express, React and Node.js across six lab assignments. Customers can sign up, browse and search products, keep a wishlist, manage a cart, and check out with Razorpay (test mode).
 
+## Live Demo
+
+- **Frontend (Vercel):** https://shopkart-black.vercel.app
+- **Backend API (Render):** https://shopkart-hqyd.onrender.com/products
+
+> The backend is on Render's free plan and sleeps when idle, so the first request can take 30–60 seconds.
+
+The frontend's `vercel.json` forwards `/api/*` requests to the Render backend. This keeps the site and the API on one domain, so the login cookie works in every browser.
+
 ## Features
 
 | Lab | Feature |
